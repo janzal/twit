@@ -145,6 +145,13 @@ The endpoint to hit. When specifying `path` values, omit the **'.json'** at the 
 
 POST any of the REST API endpoints. Same usage as `T.get()`.
 
+##`T.uploadMedia(params, callback)`
+
+Method for uploading photos/videos. It wraps `media/upload` method and handles some Twitter requirements.
+
+`params` object has to contain `type` of uploaded media (possible values are photo/video) and `data`. Data is Base64 String or Buffer.
+
+
 ##`T.getAuth()`
 Get the client's authentication tokens.
 

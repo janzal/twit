@@ -12,7 +12,8 @@
     "oauth"
   ],
   "dependencies": {
-    "oauth": "0.9.9"
+    "oauth": "0.9.9",
+    "twitter-media": "0.0.x"
   },
   "devDependencies": {
     "async": "0.2.9",
