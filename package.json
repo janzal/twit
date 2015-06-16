@@ -1,7 +1,7 @@
 {
   "name": "twit",
   "description": "Twitter API client for node (REST & Streaming)",
-  "version": "1.1.20",
+  "version": "1.2.0",
   "author": "Tolga Tezel",
   "keywords": [
     "twitter",
@@ -13,7 +13,7 @@
   ],
   "dependencies": {
     "oauth": "0.9.9",
-    "twitter-media": "0.0.x"
+    "twitter-media": "0.1.x"
   },
   "devDependencies": {
     "async": "0.2.9",
