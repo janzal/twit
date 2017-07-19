@@ -407,82 +407,98 @@ describe('REST API', function () {
     }, done)
   })
 
-  describe('Media Upload', function () {
+  describe.only('Media Upload', function () {
     var twit = null
 
     before(function () {
       twit = new Twit(config1)
     })
 
-    it('Successfully POST media/upload with png', function (done) {
-      var b64content = fs.readFileSync(__dirname + '/img/cutebird.png', { encoding: 'base64' })
+    it('Successfully POST media/upload with mp4', function (done) {
+      var fileData = fs.readFileSync(__dirname + '/img/video.mp4')
 
-      twit.post('media/upload', { media: b64content }, function (err, data, response) {
+      twit.uploadMedia({
+        type: 'video',
+        media: fileData
+      }, function (err, data, response) {
         assert(!err, err)
+        console.log(err, data, response);
         exports.checkMediaUpload(data)
-        assert.equal(data.image.image_type, 'image/png')
+        assert.equal(data.image.image_type, 'video/mp4')
         done()
       })
     })
 
-    it('Successfully POST media/upload with JPG', function (done) {
-      var b64content = fs.readFileSync(__dirname + '/img/bigbird.jpg', { encoding: 'base64' })
+    // it('Successfully POST media/upload with png', function (done) {
+    //   var b64content = fs.readFileSync(__dirname + '/img/cutebird.png', { encoding: 'base64' })
 
-      twit.post('media/upload', { media: b64content }, function (err, data, response) {
-        assert(!err, err)
-        exports.checkMediaUpload(data)
-        assert.equal(data.image.image_type, 'image/jpeg')
-        done()
-      })
+    //   twit.post('media/upload', { media: b64content, allow_dirty_methods: true }, function (err, data, response) {
+    //     assert(!err, err)
+    //     exports.checkMediaUpload(data)
+    //     assert.equal(data.image.image_type, 'image/png')
+    //     done()
+    //   })
+    // })
+
+    // it('Successfully POST media/upload with JPG', function (done) {
+    //   var b64content = fs.readFileSync(__dirname + '/img/bigbird.jpg', { encoding: 'base64' })
+
+    //   twit.post('media/upload', { media: b64content }, function (err, data, response) {
+    //     assert(!err, err)
+    //     exports.checkMediaUpload(data)
+    //     assert.equal(data.image.image_type, 'image/jpeg')
+    //     done()
+    //   })
+    // })
+
+    // it('Succesfully POST media/upload with static GIF', function (done) {
+    //   var b64content = fs.readFileSync(__dirname + '/img/twitterbird.gif', { encoding: 'base64' })
+
+    //   twit.post('media/upload', { media: b64content }, function (err, data, response) {
+    //     assert(!err, err)
+    //     exports.checkMediaUpload(data)
+    //     assert.equal(data.image.image_type, 'image/gif')
+    //     done()
+    //   })
+    // })
+
+    // it('Succesfully POST media/upload with animated GIF', function (done) {
+    //   var b64content = fs.readFileSync(__dirname + '/img/snoopy-animated.gif', { encoding: 'base64' })
+
+    //   twit.post('media/upload', { media: b64content }, function (err, data, response) {
+    //     assert(!err, err)
+    //     exports.checkMediaUpload(data)
+    //     assert.equal(data.image.image_type, 'image/animatedgif')
+    //     done()
+    //   })
+    // })
+
+    // it('POST animated GIF, then POST a tweet referencing the media', function (done) {
+    //   var b64content = fs.readFileSync(__dirname + '/img/snoopy-animated.gif', { encoding: 'base64' })
+
+    //   twit.post('media/upload', { media: b64content }, function (err, data, response) {
+    //     assert(!err, err)
+    //     exports.checkMediaUpload(data)
+    //     assert.equal(data.image.image_type, 'image/animatedgif')
+
+    //     var mediaIdStr = data.media_id_string
+    //     assert(mediaIdStr)
+    //     var params = { status: '#nofilter', media_ids: [mediaIdStr] }
+    //     twit.post('statuses/update', params, function (err, data, response) {
+    //       assert(!err, err)
+    //       tweetIdStr = data.id_str
+    //       assert(tweetIdStr)
+
+    //       twit.post('statuses/destroy/:id', { id: tweetIdStr }, function (err, data, response) {
+    //       checkReply(err, data)
+
+    //       done()
+    //     })
+    //     })
+    //   })
+
     })
-
-    it('Succesfully POST media/upload with static GIF', function (done) {
-      var b64content = fs.readFileSync(__dirname + '/img/twitterbird.gif', { encoding: 'base64' })
-
-      twit.post('media/upload', { media: b64content }, function (err, data, response) {
-        assert(!err, err)
-        exports.checkMediaUpload(data)
-        assert.equal(data.image.image_type, 'image/gif')
-        done()
-      })
-    })
-
-    it('Succesfully POST media/upload with animated GIF', function (done) {
-      var b64content = fs.readFileSync(__dirname + '/img/snoopy-animated.gif', { encoding: 'base64' })
-
-      twit.post('media/upload', { media: b64content }, function (err, data, response) {
-        assert(!err, err)
-        exports.checkMediaUpload(data)
-        assert.equal(data.image.image_type, 'image/animatedgif')
-        done()
-      })
-    })
-
-    it('POST animated GIF, then POST a tweet referencing the media', function (done) {
-      var b64content = fs.readFileSync(__dirname + '/img/snoopy-animated.gif', { encoding: 'base64' })
-
-      twit.post('media/upload', { media: b64content }, function (err, data, response) {
-        assert(!err, err)
-        exports.checkMediaUpload(data)
-        assert.equal(data.image.image_type, 'image/animatedgif')
-
-        var mediaIdStr = data.media_id_string
-        assert(mediaIdStr)
-        var params = { status: '#nofilter', media_ids: [mediaIdStr] }
-        twit.post('statuses/update', params, function (err, data, response) {
-          assert(!err, err)
-          tweetIdStr = data.id_str
-          assert(tweetIdStr)
-
-          twit.post('statuses/destroy/:id', { id: tweetIdStr }, function (err, data, response) {
-          checkReply(err, data)
-
-          done()
-        })
-        })
-      })
-    })
-  })
+  // })
 
   describe('error handling', function () {
     describe('handling errors from the twitter api', function () {
